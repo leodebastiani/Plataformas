@@ -1,0 +1,11 @@
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+const express_1 = require("express");
+const admin_controller_1 = require("../controllers/admin.controller");
+const auth_middleware_1 = require("../middlewares/auth.middleware");
+const router = (0, express_1.Router)();
+router.use(auth_middleware_1.authenticate);
+router.use((0, auth_middleware_1.authorize)(['ADMIN']));
+router.patch('/users/:id/toggle-admin', admin_controller_1.toggleAdminRole);
+router.get('/expiring-platforms', admin_controller_1.getExpiringPlatforms);
+exports.default = router;

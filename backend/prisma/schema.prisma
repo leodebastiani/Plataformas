@@ -1,0 +1,55 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id               String            @id @default(uuid())
+  name             String
+  email            String            @unique
+  password         String?
+  role             String            @default("ADMIN")
+  sector           String?
+  position         String?
+  status           String            @default("ACTIVE")
+  userPlatforms    UserPlatform[]
+  createdAt        DateTime          @default(now())
+  updatedAt        DateTime          @updatedAt
+}
+
+model Platform {
+  id               String            @id @default(uuid())
+  name             String
+  description      String?
+  userPlatforms    UserPlatform[]
+  sectors          Sector[]
+  licenseType      String            @default("UNLIMITED")
+  licenseQuantity  Int?
+  expirationDate   DateTime?
+  status           String            @default("ACTIVE")
+  createdAt        DateTime          @default(now())
+  updatedAt        DateTime          @updatedAt
+}
+
+model UserPlatform {
+  id         String   @id @default(uuid())
+  userId     String
+  platformId String
+  user       User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  platform   Platform @relation(fields: [platformId], references: [id], onDelete: Cascade)
+  createdAt  DateTime @default(now())
+
+  @@unique([userId, platformId])
+}
+
+model Sector {
+  id        String     @id @default(uuid())
+  name      String     @unique
+  platforms Platform[]
+  createdAt DateTime   @default(now())
+  updatedAt DateTime   @updatedAt
+}
