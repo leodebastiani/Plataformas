@@ -19,6 +19,8 @@ export const getUsers = async (req: AuthRequest, res: Response) => {
                 sector: true,
                 position: true,
                 status: true,
+                createdAt: true,
+                updatedAt: true,
                 userPlatforms: {
                     select: {
                         platform: {
