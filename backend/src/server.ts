@@ -3,6 +3,7 @@ import cors from 'cors';
 import helmet from 'helmet';
 import morgan from 'morgan';
 import dotenv from 'dotenv';
+dotenv.config();
 import { PrismaClient } from '@prisma/client';
 
 const prisma = new PrismaClient({
@@ -13,8 +14,8 @@ const prisma = new PrismaClient({
     },
 });
 
-// Enable foreign key constraints for SQLite
-prisma.$executeRawUnsafe('PRAGMA foreign_keys = ON;').catch(console.error);
+// Enable foreign key constraints for SQLite (commented out for PostgreSQL/Supabase)
+// prisma.$executeRawUnsafe('PRAGMA foreign_keys = ON;').catch(console.error);
 import authRoutes from './routes/auth.routes';
 import bcrypt from 'bcryptjs';
 import userRoutes from './routes/user.routes';
@@ -23,7 +24,7 @@ import platformRoutes from './routes/platform.routes';
 import adminRoutes from './routes/admin.routes';
 import { seedSectors } from './controllers/sector.controller';
 
-dotenv.config();
+
 
 const app = express();
 const PORT = process.env.PORT || 3000;
