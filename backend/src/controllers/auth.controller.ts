@@ -9,8 +9,14 @@ const JWT_SECRET = process.env.JWT_SECRET || 'supersecretkey';
 export const login = async (req: Request, res: Response) => {
     const { email, password } = req.body;
 
+    // Trim email to avoid whitespace issues
+    const normalizedEmail = email?.trim();
+    if (!normalizedEmail || !password) {
+        return res.status(400).json({ message: 'Email and password are required' });
+    }
+
     try {
-        const user = await prisma.user.findUnique({ where: { email } });
+        const user = await prisma.user.findUnique({ where: { email: normalizedEmail } });
         if (!user) {
             return res.status(401).json({ message: 'Invalid credentials' });
         }

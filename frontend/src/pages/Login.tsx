@@ -16,7 +16,7 @@ export default function Login() {
         setLoading(true);
 
         try {
-            const response = await authService.login(email, password);
+            const response = await authService.login(email.trim(), password.trim());
             localStorage.setItem('token', response.data.token);
             localStorage.setItem('user', JSON.stringify(response.data.user));
             navigate('/dashboard');
@@ -120,7 +120,7 @@ export default function Login() {
                                 </div>
                                 <div className="ml-3 flex-1 md:flex md:justify-between">
                                     <p className="text-sm text-blue-700">
-                                        <span className="font-bold">Demo:</span> admin@example.com / admin123
+                                        <span className="font-bold">Demo:</span> test@example.com / password123
                                     </p>
                                 </div>
                             </div>
