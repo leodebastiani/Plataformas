@@ -1,6 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.deleteSector = exports.updateSector = exports.createSector = exports.getSectors = void 0;
+exports.deleteSector = exports.updateSector = exports.createSector = exports.getSectors = exports.seedSectors = void 0;
 const client_1 = require("@prisma/client");
 const prisma = new client_1.PrismaClient();
 const PREDEFINED_SECTORS = [
@@ -41,13 +41,27 @@ const PREDEFINED_SECTORS = [
     'Tech QA',
     'TESTING Department',
 ];
+const seedSectors = async () => {
+    try {
+        const count = await prisma.sector.count();
+        if (count === 0) {
+            console.log('Seeding sectors...');
+            for (const name of PREDEFINED_SECTORS) {
+                await prisma.sector.create({ data: { name } });
+            }
+            console.log('Sectors seeded.');
+        }
+    }
+    catch (error) {
+        console.error('Error seeding sectors:', error);
+    }
+};
+exports.seedSectors = seedSectors;
 const getSectors = async (req, res) => {
     try {
-        // Return predefined sectors as objects with id and name
-        const sectors = PREDEFINED_SECTORS.map((name, index) => ({
-            id: `sector-${index}`,
-            name,
-        }));
+        const sectors = await prisma.sector.findMany({
+            orderBy: { name: 'asc' }
+        });
         res.json(sectors);
     }
     catch (error) {

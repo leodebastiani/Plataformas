@@ -6,6 +6,7 @@ const auth_middleware_1 = require("../middlewares/auth.middleware");
 const router = (0, express_1.Router)();
 router.use(auth_middleware_1.authenticate);
 router.get('/', platform_controller_1.getPlatforms);
+router.get('/export', (0, auth_middleware_1.authorize)(['ADMIN']), platform_controller_1.exportPlatforms);
 router.post('/', (0, auth_middleware_1.authorize)(['ADMIN']), platform_controller_1.createPlatform);
 router.put('/:id', (0, auth_middleware_1.authorize)(['ADMIN']), platform_controller_1.updatePlatform);
 router.delete('/:id', (0, auth_middleware_1.authorize)(['ADMIN']), platform_controller_1.deletePlatform);

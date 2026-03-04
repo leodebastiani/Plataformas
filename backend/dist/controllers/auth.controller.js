@@ -11,9 +11,17 @@ const prisma = new client_1.PrismaClient();
 const JWT_SECRET = process.env.JWT_SECRET || 'supersecretkey';
 const login = async (req, res) => {
     const { email, password } = req.body;
+    // Trim email to avoid whitespace issues
+    const normalizedEmail = email?.trim();
+    if (!normalizedEmail || !password) {
+        return res.status(400).json({ message: 'Email and password are required' });
+    }
     try {
-        const user = await prisma.user.findUnique({ where: { email } });
+        const user = await prisma.user.findUnique({ where: { email: normalizedEmail } });
         if (!user) {
+            return res.status(401).json({ message: 'Invalid credentials' });
+        }
+        if (!user.password) {
             return res.status(401).json({ message: 'Invalid credentials' });
         }
         const isPasswordValid = await bcryptjs_1.default.compare(password, user.password);
