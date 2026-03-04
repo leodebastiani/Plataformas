@@ -1,15 +1,26 @@
 export default function Footer() {
+    const currentYear = new Date().getFullYear();
+
     return (
-        <footer className="footer mt-auto">
-            <div className="px-6">
-                <div className="flex flex-col md:flex-row justify-center items-center gap-4">
-                    <div className="flex items-center gap-3">
-                        <span className="badge badge-yellow">BETA</span>
-                        <span className="text-sm text-secondary">
-                            ServiceTrack is a software, made by{' '}
-                            <span className="text-primary font-medium">Leonardo Debastiani</span>
+        <footer className="w-full mt-auto py-8">
+            <div className="px-6 flex flex-col items-center gap-4">
+                <div className="flex items-center gap-4 py-2 px-4 rounded-full bg-secondary/5 border border-border/30 backdrop-blur-sm">
+                    <span className="flex h-2 w-2 relative">
+                        <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-primary opacity-75"></span>
+                        <span className="relative inline-flex rounded-full h-2 w-2 bg-primary"></span>
+                    </span>
+                    <span className="text-[10px] font-bold tracking-[0.2em] text-secondary/60 uppercase">
+                        V1.2 Alpha Stage
+                    </span>
+                </div>
+
+                <div className="text-center group">
+                    <p className="text-sm text-secondary/40 font-medium">
+                        © {currentYear} Plataformas • Handcrafted by
+                        <span className="text-primary/70 transition-all duration-300 ml-1">
+                            Leonardo Debastiani
                         </span>
-                    </div>
+                    </p>
                 </div>
             </div>
         </footer>

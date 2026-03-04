@@ -1,0 +1,3 @@
+COUNT: 2
+- NAME: Test Admin, EMAIL: test@example.com, STATUS: ACTIVE, ROLE: ADMIN
+- NAME: leoz├úo, EMAIL: leozao.debasa@kto.com, STATUS: ACTIVE, ROLE: ADMIN

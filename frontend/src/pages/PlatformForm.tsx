@@ -56,14 +56,12 @@ export default function PlatformForm() {
     const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
         setLoading(true);
-
         try {
             const dataToSend = {
                 ...formData,
                 licenseQuantity: formData.licenseQuantity ? parseInt(formData.licenseQuantity as string) : null,
                 expirationDate: formData.expirationDate || null,
             };
-
             if (id) {
                 await platformService.update(id, dataToSend);
             } else {
@@ -72,176 +70,134 @@ export default function PlatformForm() {
             navigate('/platforms');
         } catch (error) {
             console.error('Error saving platform:', error);
-            alert('Error saving platform');
+            alert('Erro ao salvar plataforma');
         } finally {
             setLoading(false);
         }
     };
 
     return (
-        <div className="min-h-screen bg-gray-50">
+        <div className="flex min-h-screen bg-background text-primary">
             <Sidebar />
 
-            <main className="main-with-sidebar">
-                <div className="top-nav">
-                    <h1 className="text-xl font-bold text-gray-800">{id ? 'Edit Platform' : 'New Platform'}</h1>
-                    <button onClick={() => navigate('/platforms')} className="btn btn-secondary">
-                        <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M10 19l-7-7m0 0l7-7m-7 7h18" />
-                        </svg>
-                        Back to Platforms
-                    </button>
-                </div>
-
-                <div className="p-8 max-w-4xl mx-auto">
-                    <div className="mb-6">
-                        <p className="text-secondary">
-                            {id ? 'Update platform information' : 'Register a new platform'}
-                        </p>
+            <main className="main-with-sidebar flex-1">
+                <header className="px-10 py-8 flex items-center justify-between border-b border-border bg-background/80 backdrop-blur-md sticky top-0 z-30">
+                    <div>
+                        <h1 className="text-3xl font-extrabold tracking-tight text-primary">{id ? 'Editar Plataforma' : 'Nova Plataforma'}</h1>
+                        <p className="text-secondary text-sm font-medium mt-1">Preencha as informações abaixo.</p>
                     </div>
+                    <button onClick={() => navigate('/platforms')} className="btn btn-secondary py-4 rounded-2xl font-bold px-8">
+                        <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M10 19l-7-7m0 0l7-7m-7 7h18" /></svg>
+                        Voltar
+                    </button>
+                </header>
 
-                    <div className="card">
-                        <form onSubmit={handleSubmit} className="space-y-6">
-                            {/* Name */}
-                            <div>
-                                <label className="block text-sm font-medium mb-2 text-secondary">
-                                    Platform Name *
-                                </label>
-                                <input
-                                    type="text"
-                                    value={formData.name}
-                                    onChange={(e) => setFormData({ ...formData, name: e.target.value })}
-                                    className="input"
-                                    placeholder="e.g., Slack, GitHub, Notion"
-                                    required
-                                />
-                            </div>
-
-                            {/* Description */}
-                            <div>
-                                <label className="block text-sm font-medium mb-2 text-secondary">
-                                    Description
-                                </label>
-                                <textarea
-                                    value={formData.description}
-                                    onChange={(e) => setFormData({ ...formData, description: e.target.value })}
-                                    className="input"
-                                    rows={3}
-                                    placeholder="Brief description of the platform..."
-                                />
-                            </div>
-
-                            {/* Sectors */}
-                            <div>
-                                <label className="block text-sm font-medium mb-2 text-secondary">
-                                    Sectors
-                                </label>
-                                <div className="card bg-hover max-h-64 overflow-y-auto">
-                                    {sectorsList.length === 0 ? (
-                                        <p className="text-sm text-secondary">No sectors available</p>
-                                    ) : (
-                                        <div className="grid grid-cols-2 gap-2">
-                                            {sectorsList.map((sector) => (
-                                                <label key={sector.id} className="flex items-center cursor-pointer hover:bg-primary/5 p-3 rounded-lg transition">
-                                                    <input
-                                                        type="checkbox"
-                                                        checked={formData.sectors.includes(sector.id)}
-                                                        onChange={(e) => {
-                                                            if (e.target.checked) {
-                                                                setFormData({ ...formData, sectors: [...formData.sectors, sector.id] });
-                                                            } else {
-                                                                setFormData({ ...formData, sectors: formData.sectors.filter(id => id !== sector.id) });
-                                                            }
-                                                        }}
-                                                        className="w-4 h-4 text-blue-600 border-gray-300 rounded focus:ring-blue-500"
-                                                    />
-                                                    <span className="ml-3 text-sm">{sector.name}</span>
-                                                </label>
-                                            ))}
-                                        </div>
-                                    )}
-                                </div>
-                            </div>
-
-                            {/* License Type */}
-                            <div>
-                                <label className="block text-sm font-medium mb-2 text-secondary">
-                                    License Type
-                                </label>
-                                <select
-                                    value={formData.licenseType}
-                                    onChange={(e) => setFormData({ ...formData, licenseType: e.target.value })}
-                                    className="input"
-                                >
-                                    <option value="UNLIMITED">Unlimited</option>
-                                    <option value="LIMITED">Limited</option>
-                                </select>
-                            </div>
-
-                            {/* License Details */}
-                            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                                {formData.licenseType === 'LIMITED' && (
-                                    <div>
-                                        <label className="block text-sm font-medium mb-2 text-secondary">
-                                            License Quantity
-                                        </label>
-                                        <input
-                                            type="number"
-                                            value={formData.licenseQuantity}
-                                            onChange={(e) => setFormData({ ...formData, licenseQuantity: e.target.value })}
-                                            className="input"
-                                            placeholder="Number of licenses"
-                                        />
-                                    </div>
-                                )}
-
-                                <div>
-                                    <label className="block text-sm font-medium mb-2 text-secondary">
-                                        Expiration Date
-                                    </label>
+                <div className="p-10 max-w-4xl mx-auto w-full">
+                    <div className="card p-10 sm:p-12">
+                        <form onSubmit={handleSubmit} className="space-y-10">
+                            <div className="grid grid-cols-1 md:grid-cols-2 gap-10">
+                                <div className="space-y-3">
+                                    <label className="text-xs font-black uppercase tracking-widest text-secondary/60 ml-1">Nome da Plataforma</label>
                                     <input
-                                        type="date"
-                                        value={formData.expirationDate}
-                                        onChange={(e) => setFormData({ ...formData, expirationDate: e.target.value })}
-                                        className="input"
+                                        type="text"
+                                        value={formData.name}
+                                        onChange={(e) => setFormData({ ...formData, name: e.target.value })}
+                                        className="input focus:ring-4 focus:ring-brand/5 focus:border-brand"
+                                        placeholder="Ex: Slack, GitHub"
+                                        required
                                     />
                                 </div>
-
-                                <div>
-                                    <label className="block text-sm font-medium mb-2 text-secondary">
-                                        Status
-                                    </label>
+                                <div className="space-y-3">
+                                    <label className="text-xs font-black uppercase tracking-widest text-secondary/60 ml-1">Status</label>
                                     <select
                                         value={formData.status}
                                         onChange={(e) => setFormData({ ...formData, status: e.target.value })}
-                                        className="input"
+                                        className="input focus:ring-4 focus:ring-brand/5 focus:border-brand appearance-none"
                                     >
-                                        <option value="ACTIVE">Active</option>
-                                        <option value="INACTIVE">Inactive</option>
+                                        <option value="ACTIVE">Ativa</option>
+                                        <option value="INACTIVE">Inativa</option>
                                     </select>
                                 </div>
                             </div>
 
-                            {/* Submit Button */}
-                            <div className="pt-4">
-                                <button
-                                    type="submit"
-                                    disabled={loading}
-                                    className="btn btn-primary w-full"
-                                >
-                                    {loading ? (
-                                        <span className="flex items-center justify-center gap-2">
-                                            <svg className="animate-spin h-4 w-4" fill="none" viewBox="0 0 24 24">
-                                                <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle>
-                                                <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
-                                            </svg>
-                                            Saving...
-                                        </span>
-                                    ) : (
-                                        id ? 'Update Platform' : 'Create Platform'
-                                    )}
-                                </button>
+                            <div className="space-y-3">
+                                <label className="text-xs font-black uppercase tracking-widest text-secondary/60 ml-1">Descrição</label>
+                                <textarea
+                                    value={formData.description}
+                                    onChange={(e) => setFormData({ ...formData, description: e.target.value })}
+                                    className="input focus:ring-4 focus:ring-brand/5 focus:border-brand"
+                                    rows={4}
+                                    placeholder="Uma breve descrição da ferramenta..."
+                                />
                             </div>
+
+                            <div className="space-y-6">
+                                <label className="text-xs font-black uppercase tracking-widest text-secondary/60 ml-1">Setores com Acesso</label>
+                                <div className="grid grid-cols-2 sm:grid-cols-3 gap-4">
+                                    {sectorsList.map((sector) => (
+                                        <label
+                                            key={sector.id}
+                                            className={`flex items-center p-5 rounded-2xl border-2 transition-all cursor-pointer group ${formData.sectors.includes(sector.id)
+                                                ? 'bg-brand/5 border-brand text-brand shadow-lg shadow-brand/5'
+                                                : 'bg-surface border-border text-secondary hover:border-brand/40'
+                                                }`}
+                                        >
+                                            <input
+                                                type="checkbox"
+                                                className="hidden"
+                                                checked={formData.sectors.includes(sector.id)}
+                                                onChange={(e) => {
+                                                    if (e.target.checked) setFormData({ ...formData, sectors: [...formData.sectors, sector.id] });
+                                                    else setFormData({ ...formData, sectors: formData.sectors.filter(id => id !== sector.id) });
+                                                }}
+                                            />
+                                            <span className="text-sm font-black truncate">{sector.name}</span>
+                                        </label>
+                                    ))}
+                                </div>
+                            </div>
+
+                            <div className="grid grid-cols-1 md:grid-cols-3 gap-10 pt-10 border-t border-border">
+                                <div className="space-y-3">
+                                    <label className="text-xs font-black uppercase tracking-widest text-secondary/60 ml-1">Tipo de Licença</label>
+                                    <select
+                                        value={formData.licenseType}
+                                        onChange={(e) => setFormData({ ...formData, licenseType: e.target.value })}
+                                        className="input focus:ring-4 focus:ring-brand/5 focus:border-brand appearance-none"
+                                    >
+                                        <option value="UNLIMITED">Ilimitada</option>
+                                        <option value="LIMITED">Limitada</option>
+                                    </select>
+                                </div>
+                                <div className={`space-y-3 transition-opacity ${formData.licenseType === 'LIMITED' ? 'opacity-100' : 'opacity-30'}`}>
+                                    <label className="text-xs font-black uppercase tracking-widest text-secondary/60 ml-1">Quantidade</label>
+                                    <input
+                                        type="number"
+                                        disabled={formData.licenseType !== 'LIMITED'}
+                                        value={formData.licenseQuantity}
+                                        onChange={(e) => setFormData({ ...formData, licenseQuantity: e.target.value })}
+                                        className="input focus:ring-4 focus:ring-brand/5 focus:border-brand"
+                                        placeholder="0"
+                                    />
+                                </div>
+                                <div className="space-y-3">
+                                    <label className="text-xs font-black uppercase tracking-widest text-secondary/60 ml-1">Expiração</label>
+                                    <input
+                                        type="date"
+                                        value={formData.expirationDate}
+                                        onChange={(e) => setFormData({ ...formData, expirationDate: e.target.value })}
+                                        className="input focus:ring-4 focus:ring-brand/5 focus:border-brand appearance-none"
+                                    />
+                                </div>
+                            </div>
+
+                            <button
+                                type="submit"
+                                disabled={loading}
+                                className="w-full bg-brand text-white py-5 rounded-2xl font-black text-lg shadow-xl shadow-brand/20 hover:bg-brand-hover transition-all mt-6 active:scale-[0.98]"
+                            >
+                                {loading ? 'Salvando...' : (id ? 'Atualizar Plataforma' : 'Criar Plataforma')}
+                            </button>
                         </form>
                     </div>
                 </div>
