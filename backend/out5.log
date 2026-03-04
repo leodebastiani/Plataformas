@@ -1,0 +1,14 @@
+[dotenv@17.2.3] injecting env (0) from .env -- tip: ­ƒöä add secrets lifecycle management: https://dotenvx.com/ops
+Testing connection to: postgresql://postgres:****@db.uiyuxwvqdvjgcrvtcfnh.supabase.co:5432/postgres
+prisma:info Starting a postgresql pool with 21 connections.
+--- CONNECTION FAILED ---
+Message: Can't reach database server at `db.uiyuxwvqdvjgcrvtcfnh.supabase.co:5432`
+
+Please make sure your database server is running at `db.uiyuxwvqdvjgcrvtcfnh.supabase.co:5432`.
+Code: undefined
+Stack: PrismaClientInitializationError: Can't reach database server at `db.uiyuxwvqdvjgcrvtcfnh.supabase.co:5432`
+
+Please make sure your database server is running at `db.uiyuxwvqdvjgcrvtcfnh.supabase.co:5432`.
+    at t (C:\Users\leonardo.debastiani\Desktop\Plataformas\backend\node_modules\@prisma\client\runtime\library.js:112:2488)
+    at async main (C:\Users\leonardo.debastiani\Desktop\Plataformas\backend\src\test-connection.ts:15:9)
+--------------------------

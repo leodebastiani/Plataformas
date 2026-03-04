@@ -1,0 +1,10 @@
+[dotenv@17.2.3] injecting env (0) from .env -- tip: ÔÜÖ´©Å  write to custom object with { processEnv: myObject }
+Testing connection to: postgresql://postgres.uiyuxwvqdvjgcrvtcfnh:****@aws-0-us-east-1.pooler.supabase.com:6543/postgres?pgbouncer=true&connection_limit=1
+prisma:info Starting a postgresql pool with 1 connections in PgBouncer mode.
+--- CONNECTION FAILED ---
+Message: Error querying the database: FATAL: Tenant or user not found
+Code: undefined
+Stack: PrismaClientInitializationError: Error querying the database: FATAL: Tenant or user not found
+    at t (C:\Users\leonardo.debastiani\Desktop\Plataformas\backend\node_modules\@prisma\client\runtime\library.js:112:2488)
+    at async main (C:\Users\leonardo.debastiani\Desktop\Plataformas\backend\src\test-connection.ts:15:9)
+--------------------------

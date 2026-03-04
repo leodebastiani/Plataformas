@@ -1,0 +1,44 @@
+[dotenv@17.2.3] injecting env (4) from .env -- tip: ­ƒöæ add access controls to secrets: https://dotenvx.com/ops
+PrismaClientInitializationError: 
+Invalid `prisma.$executeRawUnsafe()` invocation:
+
+
+error: Error validating datasource `db`: the URL must start with the protocol `file:`.
+  -->  schema.prisma:7
+   | 
+ 6 |   provider = "sqlite"
+ 7 |   url      = "file:./dev.db"
+   | 
+
+Validation Error Count: 1
+    at $n.handleRequestError (C:\Users\leonardo.debastiani\Desktop\Plataformas\backend\node_modules\@prisma\client\runtime\library.js:121:7615)
+    at $n.handleAndLogRequestError (C:\Users\leonardo.debastiani\Desktop\Plataformas\backend\node_modules\@prisma\client\runtime\library.js:121:6623)
+    at $n.request (C:\Users\leonardo.debastiani\Desktop\Plataformas\backend\node_modules\@prisma\client\runtime\library.js:121:6307)
+    at async l (C:\Users\leonardo.debastiani\Desktop\Plataformas\backend\node_modules\@prisma\client\runtime\library.js:130:9633) {
+  clientVersion: '5.22.0',
+  errorCode: undefined
+}
+ÔØî Seeding error PrismaClientInitializationError: 
+Invalid `prisma.user.findUnique()` invocation in
+C:\Users\leonardo.debastiani\Desktop\Plataformas\backend\src\server.ts:48:40
+
+  45 });
+  46 
+  47 async function seedUsers() {
+ÔåÆ 48     const existing = await prisma.user.findUnique(
+error: Error validating datasource `db`: the URL must start with the protocol `file:`.
+  -->  schema.prisma:7
+   | 
+ 6 |   provider = "sqlite"
+ 7 |   url      = "file:./dev.db"
+   | 
+
+Validation Error Count: 1
+    at $n.handleRequestError (C:\Users\leonardo.debastiani\Desktop\Plataformas\backend\node_modules\@prisma\client\runtime\library.js:121:7615)
+    at $n.handleAndLogRequestError (C:\Users\leonardo.debastiani\Desktop\Plataformas\backend\node_modules\@prisma\client\runtime\library.js:121:6623)
+    at $n.request (C:\Users\leonardo.debastiani\Desktop\Plataformas\backend\node_modules\@prisma\client\runtime\library.js:121:6307)
+    at async l (C:\Users\leonardo.debastiani\Desktop\Plataformas\backend\node_modules\@prisma\client\runtime\library.js:130:9633)
+    at async seedUsers (C:\Users\leonardo.debastiani\Desktop\Plataformas\backend\src\server.ts:48:22) {
+  clientVersion: '5.22.0',
+  errorCode: undefined
+}
